@@ -1,167 +1,201 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Lluvia en el Bosque</title>
+<meta charset="UTF-8">
+<title>Oficialmente Developer Software</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5WC0FBFZZ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-Y5WC0FBFZZ');
-    </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5WC0FBFZZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y5WC0FBFZZ');
+</script>
 
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-        body {
-            background-image: url("bosque.jpg");
-            background-size: cover;
-            background-position: center;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
 
-        /* OVERLAY TOTAL */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(10, 12, 18, 0.78);
-            z-index: 1;
-        }
+body {
+    height: 100vh;
+    background: black;
+    color: #00ff99;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        /* Lluvia */
-        .rain {
-            position: fixed;
-            width: 2px;
-            height: 18px;
-            background: linear-gradient(
-                transparent,
-                rgba(180, 200, 255, 0.7)
-            );
-            animation: fall linear infinite;
-            z-index: 2;
-            pointer-events: none;
-        }
+/* Lluvia Matrix */
+canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+}
 
-        @keyframes fall {
-            to {
-                transform: translateY(120vh);
-            }
-        }
+/* Tarjeta central */
+.card {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.78);
+    border: 2px solid #00ff99;
+    padding: 40px;
+    border-radius: 18px;
+    text-align: center;
+    max-width: 420px;
+    box-shadow: 0 0 30px #00ff99;
+    animation: glow 2s infinite alternate;
+}
 
-        /* CONTENEDOR CENTRAL */
-        .center-box {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 28px;
-            z-index: 4;
-            text-align: center;
-            padding: 20px;
-        }
+@keyframes glow {
+    from { box-shadow: 0 0 18px #00ff99; }
+    to   { box-shadow: 0 0 45px #00ffaa; }
+}
 
-        /* BOTÓN MÚSICA */
-        .music-btn {
-            min-width: 280px;
-            padding: 28px 40px;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.18);
-            border: 3px solid rgba(255, 255, 255, 0.45);
-            border-radius: 60px;
-            backdrop-filter: blur(8px);
-            cursor: pointer;
-            box-shadow: 0 0 40px rgba(180, 200, 255, 0.5);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
+.subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    opacity: 0.8;
+    margin-bottom: 12px;
+}
 
-        .music-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 55px rgba(200, 220, 255, 0.7);
-        }
+h1 {
+    font-size: 2.3rem;
+    margin-bottom: 8px;
+}
 
-        /* TEXTO */
-        .text {
-            color: #f0f0f0;
-            font-size: 2.2rem;
-            letter-spacing: 1.5px;
-        }
+h2 {
+    font-size: 1.35rem;
+    margin-bottom: 18px;
+    color: #9affd1;
+}
 
-        .text small {
-            font-style: italic;
-            opacity: 0.9;
-        }
+p {
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
 
-        /* MÓVIL: MÁS GRANDE AÚN */
-        @media (max-width: 768px) {
-            .music-btn {
-                min-width: 90%;
-                font-size: 2.6rem;
-                padding: 32px 20px;
-            }
+.badge {
+    display: inline-block;
+    padding: 10px 22px;
+    border: 1px solid #00ff99;
+    border-radius: 30px;
+    margin-top: 22px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    background: rgba(0,255,150,0.1);
+}
 
-            .text {
-                font-size: 2.6rem;
-            }
-        }
-    </style>
+footer {
+    margin-top: 26px;
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+</style>
 </head>
+
 <body>
 
-<div class="overlay"></div>
-
-<div class="center-box">
-    <button class="music-btn" id="playBtn">
-        🎧 ESCUCHAR MÚSICA
-    </button>
-
-    <div class="text">
-        <small>💖Lunna Aguas💖</small>
-    </div>
-</div>
-
-<audio id="music" loop>
+<!-- Música -->
+<audio id="bgMusic" loop>
     <source src="amarillo.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
 </audio>
 
+<!-- Lluvia Matrix -->
+<canvas id="matrix"></canvas>
+
+<!-- Tarjeta -->
+<div class="card">
+    <div class="subtitle">STATUS UNLOCKED</div>
+
+    <h1>Oficialmente</h1>
+    <h2>Developer Software 👩‍💻</h2>
+
+    <p>
+        Etapa finalizada.<br>
+        El código fluye.<br>
+        La desarrolladora ha despertado.
+    </p>
+
+    <div class="badge">🚀 BUILD EXITOSA</div>
+
+    <footer>Bienvenida a la Matrix · 2026</footer>
+</div>
+
 <script>
-    // Lluvia
-    const totalDrops = 220;
-    for (let i = 0; i < totalDrops; i++) {
-        const drop = document.createElement("div");
-        drop.className = "rain";
-        drop.style.left = Math.random() * 100 + "vw";
-        drop.style.animationDuration = (Math.random() * 0.6 + 0.5) + "s";
-        drop.style.animationDelay = Math.random() * 2 + "s";
-        document.body.appendChild(drop);
+/* ===== LLUVIA MATRIX ===== */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+
+const letters = "01<>/{}[]()$#@%";
+const fontSize = 16;
+let columns;
+let drops = [];
+
+function initDrops() {
+    columns = canvas.width / fontSize;
+    drops = [];
+    for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * canvas.height;
     }
+}
+initDrops();
 
-    // Música
-    const music = document.getElementById("music");
-    const btn = document.getElementById("playBtn");
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    btn.addEventListener("click", () => {
-        music.volume = 0.6;
-        music.play();
-        btn.style.display = "none";
-    });
+    ctx.fillStyle = "#00ff99";
+    ctx.font = fontSize + "px Orbitron";
+
+    for (let i = 0; i < drops.length; i++) {
+        const char = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+
+setInterval(drawMatrix, 35);
+
+window.addEventListener("resize", () => {
+    resizeCanvas();
+    initDrops();
+});
+
+/* ===== MÚSICA ===== */
+const audio = document.getElementById("bgMusic");
+
+function startMusic() {
+    audio.volume = 0.4;
+    audio.play();
+    document.removeEventListener("click", startMusic);
+    document.removeEventListener("touchstart", startMusic);
+}
+
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic);
 </script>
 
 </body>
 </html>
+
 

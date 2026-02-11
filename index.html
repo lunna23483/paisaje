@@ -83,15 +83,22 @@ p {
     font-size: 0.95rem;
 }
 
-.badge {
-    display: inline-block;
-    padding: 10px 22px;
+/* BOTÓN BUILD */
+#buildBtn {
+    margin-top: 22px;
+    padding: 12px 26px;
     border: 1px solid #00ff99;
     border-radius: 30px;
-    margin-top: 22px;
+    background: rgba(0,255,150,0.1);
+    color: #00ff99;
     font-size: 0.8rem;
     letter-spacing: 2px;
-    background: rgba(0,255,150,0.1);
+    cursor: pointer;
+    box-shadow: 0 0 15px #00ff99;
+}
+
+#buildBtn:active {
+    transform: scale(0.95);
 }
 
 footer {
@@ -118,7 +125,7 @@ footer {
     <div class="subtitle">STATUS UNLOCKED</div>
 
     <h1>Oficialmente</h1>
-    <h2>Developer Software </h2>
+    <h2>Developer Software 👩‍💻</h2>
 
     <p>
         Etapa finalizada.<br>
@@ -126,7 +133,8 @@ footer {
         La desarrolladora ha despertado.
     </p>
 
-    <div class="badge"> BUILD EXITOSA 🎵🎧</div>
+    <!-- BOTÓN -->
+    <button id="buildBtn">🚀 BUILD EXITOSA · 🎵</button>
 
     <footer>Bienvenida a la Matrix · 2026</footer>
 </div>
@@ -144,11 +152,10 @@ resizeCanvas();
 
 const letters = "01<>/{}[]()$#@%";
 const fontSize = 16;
-let columns;
 let drops = [];
 
 function initDrops() {
-    columns = canvas.width / fontSize;
+    const columns = canvas.width / fontSize;
     drops = [];
     for (let i = 0; i < columns; i++) {
         drops[i] = Math.random() * canvas.height;
@@ -163,15 +170,11 @@ function drawMatrix() {
     ctx.fillStyle = "#00ff99";
     ctx.font = fontSize + "px Orbitron";
 
-    for (let i = 0; i < drops.length; i++) {
+    drops.forEach((y, i) => {
         const char = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-        }
-        drops[i]++;
-    }
+        ctx.fillText(char, i * fontSize, y * fontSize);
+        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+    });
 }
 
 setInterval(drawMatrix, 35);
@@ -181,18 +184,23 @@ window.addEventListener("resize", () => {
     initDrops();
 });
 
-/* ===== MÚSICA ===== */
+/* ===== BOTÓN MÚSICA ===== */
 const audio = document.getElementById("bgMusic");
+const buildBtn = document.getElementById("buildBtn");
+let playing = false;
 
-function startMusic() {
-    audio.volume = 0.4;
-    audio.play();
-    document.removeEventListener("click", startMusic);
-    document.removeEventListener("touchstart", startMusic);
-}
-
-document.addEventListener("click", startMusic);
-document.addEventListener("touchstart", startMusic);
+buildBtn.addEventListener("click", () => {
+    if (!playing) {
+        audio.volume = 0.4;
+        audio.play();
+        buildBtn.textContent = "🔊 BUILD EXITOSA · SONANDO";
+        playing = true;
+    } else {
+        audio.pause();
+        buildBtn.textContent = "🚀 BUILD EXITOSA · 🎵";
+        playing = false;
+    }
+});
 </script>
 
 </body>
